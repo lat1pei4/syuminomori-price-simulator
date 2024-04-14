@@ -6,7 +6,7 @@ import { Toggle } from "@/components/ui/toggle";
 import { Slider } from "@/components/ui/slider";
 
 export default function Home() {
-  const [adults, setAdults] = useState(1);
+  const [adults, setAdults] = useState(0);
   const [children, setChildren] = useState(0);
   const [toddlers, setToddlers] = useState(0);
   const [infants, setInfants] = useState(0);
@@ -133,7 +133,6 @@ export default function Home() {
             <div>
               <small>大人</small>
               <Input
-                value={adults}
                 onChange={(e) => setAdults(+e.target.value)}
                 type="number"
                 min={0}
@@ -144,7 +143,6 @@ export default function Home() {
             <div>
               <small>子供（小学生以上）</small>
               <Input
-                value={children}
                 onChange={(e) => setChildren(+e.target.value)}
                 type="number"
                 min={0}
@@ -155,7 +153,6 @@ export default function Home() {
             <div>
               <small>幼児（3歳以上）</small>
               <Input
-                value={toddlers}
                 onChange={(e) => setToddlers(+e.target.value)}
                 type="number"
                 min={0}
@@ -166,7 +163,6 @@ export default function Home() {
             <div>
               <small>乳幼児（1歳以上）</small>
               <Input
-                value={infants}
                 onChange={(e) => setInfants(+e.target.value)}
                 type="number"
                 min={0}
@@ -201,7 +197,9 @@ export default function Home() {
               </Toggle>
             </div>
             <p>
-              滞在時間帯：{visitTime}時から{exitTime}時まで計{duration}時間
+              滞在時間帯：
+              <br />
+              {visitTime}時から{exitTime}時まで計{duration}時間
             </p>
             {/* Slider for time selection */}
             <Slider
