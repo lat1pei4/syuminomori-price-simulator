@@ -126,7 +126,7 @@ export default function Home() {
   return (
     <>
       <div className="flex items-center justify-center h-screen">
-        <div className="p-5 w-[60vw] h-[90vh] max-w-[600px] bg-slate-200 rounded-lg">
+        <div className="p-5 w-[90vw] h-[90vh] max-w-[600px] bg-slate-200 rounded-lg">
           {/* Person input section */}
           <div className="flex flex-col gap-5">
             <p>人数を入力してください：</p>
