@@ -19,94 +19,103 @@ export default function Home() {
   const [isPackageApplied, setIsPackageApplied] = useState(false);
   const [discountedAmount, setDiscountedAmount] = useState(0);
 
-  const calculateCost = () => {
-    const packageRates = {
-      weekday: {
-        "3": { adults: 2800, children: 1900, toddlers: 1400, infants: 500 },
-        "5": { adults: 3700, children: 2600, toddlers: 1900, infants: 700 },
-      },
-      weekend: {
-        "3": { adults: 3000, children: 2000, toddlers: 1500, infants: 600 },
-        "5": { adults: 3900, children: 2700, toddlers: 2000, infants: 800 },
-      },
-    };
-
-    const extensionRates = weekday
-      ? {
-          adults: 500,
-          children: 400,
-          toddlers: 300,
-          infants: 100,
-        }
-      : {
-          adults: 600,
-          children: 500,
-          toddlers: 300,
-          infants: 100,
-        };
-
-    const baseRates = weekday
-      ? {
-          adults: 1800,
-          children: 1300,
-          toddlers: 900,
-          infants: 300,
-        }
-      : {
-          adults: 2000,
-          children: 1400,
-          toddlers: 1000,
-          infants: 400,
-        };
-
-    let cost = 0;
-    let baseCost = 0;
-    const dayType = weekday ? "weekday" : "weekend";
-
-    let appliedDuration = 1.5; // start from the base duration
-    if (duration >= 5) {
-      appliedDuration = 5;
-    } else if (duration >= 3) {
-      appliedDuration = 3;
-    }
-
-    setIsPackageApplied(appliedDuration !== 1.5);
-
-    // Calculate the cost using the appropriate rates for the applied duration
-    const rates =
-      packageRates[dayType][appliedDuration.toString()] || baseRates;
-    cost =
-      adults * rates.adults +
-      children * rates.children +
-      toddlers * rates.toddlers +
-      infants * rates.infants;
-
-    // Calculate the base cost for comparison (without any discounts)
-    baseCost =
-      (adults * baseRates.adults +
-        children * baseRates.children +
-        toddlers * baseRates.toddlers +
-        infants * baseRates.infants) *
-      Math.ceil(duration / 1.5);
-
-    // Add cost for any additional time beyond the applied package duration
-    if (duration > appliedDuration) {
-      const additionalPeriods = Math.ceil((duration - appliedDuration) / 0.5);
-      cost +=
-        (adults * extensionRates.adults +
-          children * extensionRates.children +
-          toddlers * extensionRates.toddlers +
-          infants * extensionRates.infants) *
-        additionalPeriods;
-    }
-
-    const discountedAmount = baseCost - cost;
-    setTotalCost(cost);
-    setDiscountedAmount(discountedAmount); // Assuming setDiscountedAmount is the useState function to store the discount amount
-  };
-
   useEffect(() => {
-    calculateCost();
+    const calculateCost = () => {
+      const packageRates: Record<
+        string,
+        Record<
+          string,
+          {
+            adults: number;
+            children: number;
+            toddlers: number;
+            infants: number;
+          }
+        >
+      > = {
+        weekday: {
+          "3": { adults: 2800, children: 1900, toddlers: 1400, infants: 500 },
+          "5": { adults: 3700, children: 2600, toddlers: 1900, infants: 700 },
+        },
+        weekend: {
+          "3": { adults: 3000, children: 2000, toddlers: 1500, infants: 600 },
+          "5": { adults: 3900, children: 2700, toddlers: 2000, infants: 800 },
+        },
+      };
+
+      const extensionRates = weekday
+        ? {
+            adults: 500,
+            children: 400,
+            toddlers: 300,
+            infants: 100,
+          }
+        : {
+            adults: 600,
+            children: 500,
+            toddlers: 300,
+            infants: 100,
+          };
+
+      const baseRates = weekday
+        ? {
+            adults: 1800,
+            children: 1300,
+            toddlers: 900,
+            infants: 300,
+          }
+        : {
+            adults: 2000,
+            children: 1400,
+            toddlers: 1000,
+            infants: 400,
+          };
+
+      let cost = 0;
+      let baseCost = 0;
+      const dayType = weekday ? "weekday" : "weekend";
+
+      let appliedDuration = 1.5; // start from the base duration
+      if (duration >= 5) {
+        appliedDuration = 5;
+      } else if (duration >= 3) {
+        appliedDuration = 3;
+      }
+
+      setIsPackageApplied(appliedDuration !== 1.5);
+
+      // Calculate the cost using the appropriate rates for the applied duration
+      const rates =
+        packageRates[dayType][appliedDuration.toString()] || baseRates;
+      cost =
+        adults * rates.adults +
+        children * rates.children +
+        toddlers * rates.toddlers +
+        infants * rates.infants;
+
+      // Calculate the base cost for comparison (without any discounts)
+      baseCost =
+        (adults * baseRates.adults +
+          children * baseRates.children +
+          toddlers * baseRates.toddlers +
+          infants * baseRates.infants) *
+        Math.ceil(duration / 1.5);
+
+      // Add cost for any additional time beyond the applied package duration
+      if (duration > appliedDuration) {
+        const additionalPeriods = Math.ceil((duration - appliedDuration) / 0.5);
+        cost +=
+          (adults * extensionRates.adults +
+            children * extensionRates.children +
+            toddlers * extensionRates.toddlers +
+            infants * extensionRates.infants) *
+          additionalPeriods;
+      }
+
+      const discountedAmount = baseCost - cost;
+      setTotalCost(cost);
+      setDiscountedAmount(discountedAmount); // Assuming setDiscountedAmount is the useState function to store the discount amount
+    };
   }, [adults, children, toddlers, infants, weekday, weekend, duration]);
 
   return (
@@ -200,6 +209,7 @@ export default function Home() {
               min={11}
               max={20}
               step={0.5}
+              minStepsBetweenThumbs={1}
               className="pt-10"
             />
           </div>
