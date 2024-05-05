@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Picker from "react-mobile-picker";
 
-function renderOptions(options: string[], selectedColor: string) {
+function renderOptions(options: string[], selectedColor?: string) {
   return options.map((option) => (
     <Picker.Item key={option} value={option}>
       {({ selected }) => (
@@ -22,12 +22,17 @@ export default function InlinePicker({
   setChildren,
   setToddlers,
   setInfants,
+}: {
+  setAdults: React.Dispatch<React.SetStateAction<number>>;
+  setChildren: React.Dispatch<React.SetStateAction<number>>;
+  setToddlers: React.Dispatch<React.SetStateAction<number>>;
+  setInfants: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const [pickerValue, setPickerValue] = useState({
-    adults: 0,
-    children: 0,
-    toddlers: 0,
-    infants: 0,
+    adults: "",
+    children: "",
+    toddlers: "",
+    infants: "",
   });
 
   useEffect(() => {
