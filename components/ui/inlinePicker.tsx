@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Picker from "react-mobile-picker";
-import { text } from "stream/consumers";
 
 function renderOptions(options: string[], selectedColor: string) {
   return options.map((option) => (

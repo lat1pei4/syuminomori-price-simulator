@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Toggle } from "@/components/ui/toggle";
 import { Slider } from "@/components/ui/slider";
-import InlinePicker, { inlinePicker } from "@/components/ui/inlinePicker";
+import InlinePicker from "@/components/ui/inlinePicker";
 
 export default function Home() {
   const [adults, setAdults] = useState(0);
