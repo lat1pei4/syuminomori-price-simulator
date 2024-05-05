@@ -182,7 +182,7 @@ export default function Home() {
           {/* Day toggle section */}
           <div className="flex flex-col gap-5">
             <p>利用日：</p>
-            <div className="flex gap-5">
+            <div className="flex justify-center gap-10">
               <Toggle
                 onClick={() => {
                   setWeekday(true);
