@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Toggle } from "@/components/ui/toggle";
 import { Slider } from "@/components/ui/slider";
+import InlinePicker, { inlinePicker } from "@/components/ui/inlinePicker";
 
 export default function Home() {
   const [adults, setAdults] = useState(0);
@@ -80,7 +81,7 @@ export default function Home() {
 
     const rates =
       appliedDuration > 1.5
-        ? packageRates[dayType][appliedDuration.toString()]
+        ? packageRates[dayType][appliedDuration]
         : baseRates;
     cost =
       adults * rates.adults +
@@ -128,7 +129,13 @@ export default function Home() {
       <div className="flex items-center justify-center h-screen">
         <div className="p-5 w-[90vw] max-w-[600px] bg-slate-200 rounded-lg">
           {/* Person input section */}
-          <div className="flex flex-col gap-5">
+          <InlinePicker
+            setAdults={setAdults}
+            setChildren={setChildren}
+            setToddlers={setToddlers}
+            setInfants={setInfants}
+          />
+          {/* <div className="flex flex-col gap-5">
             <p>人数を入力してください：</p>
             <div>
               <small>大人</small>
@@ -171,8 +178,7 @@ export default function Home() {
               />
             </div>
             <small>*0歳は無料です</small>
-          </div>
-          <br />
+          </div> */}
           {/* Day toggle section */}
           <div className="flex flex-col gap-5">
             <p>利用日：</p>
