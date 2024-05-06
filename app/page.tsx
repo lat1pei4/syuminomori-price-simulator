@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Input } from "@/components/ui/input";
 import { Toggle } from "@/components/ui/toggle";
 import { Slider } from "@/components/ui/slider";
 import InlinePicker from "@/components/ui/inlinePicker";
@@ -14,6 +13,8 @@ export default function Home() {
   const [weekday, setWeekday] = useState(true);
   const [weekend, setWeekend] = useState(false);
   const [duration, setDuration] = useState(1.5);
+  const [isKaraoke, setIsKaraoke] = useState(false);
+  const [karaoke, setKaraoke] = useState("");
   const [totalCost, setTotalCost] = useState(0);
   const [visitTime, setVisitTime] = useState(11);
   const [exitTime, setExitTime] = useState(12.5);
@@ -21,37 +22,6 @@ export default function Home() {
   const [discountedAmount, setDiscountedAmount] = useState(0);
 
   const calculateCost = () => {
-    const packageRates: Record<
-      string,
-      Record<
-        string,
-        { adults: number; children: number; toddlers: number; infants: number }
-      >
-    > = {
-      weekday: {
-        "3": { adults: 2800, children: 1900, toddlers: 1400, infants: 500 },
-        "5": { adults: 3700, children: 2600, toddlers: 1900, infants: 700 },
-      },
-      weekend: {
-        "3": { adults: 3000, children: 2000, toddlers: 1500, infants: 600 },
-        "5": { adults: 3900, children: 2700, toddlers: 2000, infants: 800 },
-      },
-    };
-
-    const extensionRates = weekday
-      ? {
-          adults: 500,
-          children: 400,
-          toddlers: 300,
-          infants: 100,
-        }
-      : {
-          adults: 600,
-          children: 500,
-          toddlers: 300,
-          infants: 100,
-        };
-
     const baseRates = weekday
       ? {
           adults: 1800,
@@ -66,49 +36,103 @@ export default function Home() {
           infants: 400,
         };
 
+    const extensionRates = weekday
+      ? {
+          adults: 500,
+          children: 400,
+          toddlers: 300,
+          infants: 100,
+        }
+      : {
+          adults: 600,
+          children: 500,
+          toddlers: 400,
+          infants: 100,
+        };
+
+    const packageRates = {
+      weekday: {
+        "3": { adults: 2800, children: 1900, toddlers: 1400, infants: 500 },
+        "5": { adults: 3700, children: 2600, toddlers: 1900, infants: 700 },
+      },
+      weekend: {
+        "3": { adults: 3000, children: 2000, toddlers: 1500, infants: 600 },
+        "5": { adults: 3900, children: 2700, toddlers: 2000, infants: 800 },
+      },
+    };
+
+    // rate per 30 minutes
+    const karaokeRates = weekday
+      ? {
+          mori: 400,
+          umi: 450,
+          kaze: 450,
+        }
+      : {
+          mori: 450,
+          umi: 500,
+          kaze: 500,
+        };
+
     let cost = 0;
-    let baseCost = 0;
+    let nonDiscountedCost = 0;
     const dayType = weekday ? "weekday" : "weekend";
 
-    let appliedDuration = 1.5; // start from the base duration
+    const baseCost =
+      adults * baseRates.adults +
+      children * baseRates.children +
+      toddlers * baseRates.toddlers +
+      infants * baseRates.infants;
+
+    let appliedDuration = 1.5; // Default duration
     if (duration >= 5) {
       appliedDuration = 5;
     } else if (duration >= 3) {
       appliedDuration = 3;
     }
 
-    setIsPackageApplied(appliedDuration !== 1.5);
-
     const rates =
       appliedDuration > 1.5
-        ? packageRates[dayType][appliedDuration]
+        ? packageRates[dayType][String(appliedDuration)]
         : baseRates;
+
+    // Calculate cost with potentially applied package
     cost =
       adults * rates.adults +
       children * rates.children +
       toddlers * rates.toddlers +
       infants * rates.infants;
 
-    baseCost =
-      (adults * baseRates.adults +
-        children * baseRates.children +
-        toddlers * baseRates.toddlers +
-        infants * baseRates.infants) *
-      Math.ceil(duration / 1.5);
+    // Calculate non-discounted cost assuming no package
+    nonDiscountedCost = Math.ceil(duration / 1.5) * baseCost;
 
+    // Calculate additional cost if staying beyond the package duration
     if (duration > appliedDuration) {
       const additionalPeriods = Math.ceil((duration - appliedDuration) / 0.5);
       cost +=
+        additionalPeriods *
         (adults * extensionRates.adults +
           children * extensionRates.children +
           toddlers * extensionRates.toddlers +
-          infants * extensionRates.infants) *
-        additionalPeriods;
+          infants * extensionRates.infants);
     }
 
-    const discountedAmount = baseCost - cost;
+    // Adding karaoke cost if selected
+    if (
+      isKaraoke &&
+      (karaoke === "mori" || karaoke === "umi" || karaoke === "kaze")
+    ) {
+      const karaokeCostPer30Min = karaokeRates[karaoke];
+      const karaokePeriods = Math.ceil(duration / 0.5);
+      const karaokeCost = karaokeCostPer30Min * karaokePeriods;
+      cost += karaokeCost;
+      nonDiscountedCost += karaokeCost; // Include karaoke cost in the non-discounted cost
+    }
+
+    const discountedAmount = nonDiscountedCost - cost;
     setTotalCost(cost);
     setDiscountedAmount(discountedAmount);
+    setIsPackageApplied(appliedDuration !== 1.5);
   };
 
   useEffect(() => {
@@ -135,50 +159,7 @@ export default function Home() {
             setToddlers={setToddlers}
             setInfants={setInfants}
           />
-          {/* <div className="flex flex-col gap-5">
-            <p>人数を入力してください：</p>
-            <div>
-              <small>大人</small>
-              <Input
-                onChange={(e) => setAdults(+e.target.value)}
-                type="number"
-                min={0}
-                max={10}
-                placeholder="大人"
-              />
-            </div>
-            <div>
-              <small>子供（小学生以上）</small>
-              <Input
-                onChange={(e) => setChildren(+e.target.value)}
-                type="number"
-                min={0}
-                max={10}
-                placeholder="小学生以上"
-              />
-            </div>
-            <div>
-              <small>幼児（3歳以上）</small>
-              <Input
-                onChange={(e) => setToddlers(+e.target.value)}
-                type="number"
-                min={0}
-                max={10}
-                placeholder="3歳以上"
-              />
-            </div>
-            <div>
-              <small>乳幼児（1歳以上）</small>
-              <Input
-                onChange={(e) => setInfants(+e.target.value)}
-                type="number"
-                min={0}
-                max={10}
-                placeholder="1歳以上"
-              />
-            </div>
-            <small>*0歳は無料です</small>
-          </div> */}
+
           {/* Day toggle section */}
           <div className="flex flex-col gap-5">
             <p>利用日：</p>
@@ -202,11 +183,76 @@ export default function Home() {
                 土日祝
               </Toggle>
             </div>
-            <p>
-              滞在時間帯：
-              <br />
-              {visitTime}時から{exitTime}時まで計{duration}時間
-            </p>
+            <p>個室利用（カラオケ）:</p>
+            <div className="flex justify-center sm:gap-10 flex-wrap">
+              <Toggle
+                onClick={() => {
+                  setKaraoke("");
+                  setIsKaraoke(false);
+                }}
+                pressed={!isKaraoke}
+              >
+                なし
+              </Toggle>
+              <Toggle
+                onClick={() => {
+                  if (!karaoke) {
+                    setKaraoke("mori");
+                    setIsKaraoke(!isKaraoke);
+                  } else if (karaoke === "mori") {
+                    setKaraoke("");
+                    setIsKaraoke(false);
+                  } else {
+                    setKaraoke("mori");
+                  }
+                }}
+                pressed={isKaraoke && karaoke === "mori"}
+              >
+                <p>
+                  森ルーム
+                  <span className="text-xs block">（2~4名）</span>
+                </p>
+              </Toggle>
+              <Toggle
+                onClick={() => {
+                  if (!karaoke) {
+                    setKaraoke("umi");
+                    setIsKaraoke(!isKaraoke);
+                  } else if (karaoke === "umi") {
+                    setKaraoke("");
+                    setIsKaraoke(false);
+                  } else {
+                    setKaraoke("umi");
+                  }
+                }}
+                pressed={isKaraoke && karaoke === "umi"}
+              >
+                <p>
+                  海ルーム
+                  <span className="text-xs block">（3~7名）</span>
+                </p>
+              </Toggle>
+              <Toggle
+                onClick={() => {
+                  if (!karaoke) {
+                    setKaraoke("kaze");
+                    setIsKaraoke(!isKaraoke);
+                  } else if (karaoke === "kaze") {
+                    setKaraoke("");
+                    setIsKaraoke(false);
+                  } else {
+                    setKaraoke("kaze");
+                  }
+                }}
+                pressed={isKaraoke && karaoke === "kaze"}
+              >
+                <p>
+                  風ルーム
+                  <span className="text-xs block">（4~8名）</span>
+                </p>
+              </Toggle>
+            </div>
+            <p>滞在時間帯：</p>
             {/* Slider for time selection */}
             <Slider
               onValueChange={(value) => {
@@ -224,13 +270,18 @@ export default function Home() {
           </div>
           {/* Cost display section */}
           <div className="text-center">
+            <p>
+              {visitTime}時から{exitTime}時まで計{duration}時間
+            </p>
             <h2 className="text-2xl font-bold ">
               合計金額：¥{totalCost.toFixed(0)}
             </h2>
             {isPackageApplied && (
               <p className="text-accent-foreground">
                 {duration >= 5 ? "5" : "3"}
-                時間お得パック適用されました！{discountedAmount}円お得！
+                時間お得パック適用されました！
+                <br />
+                {discountedAmount}円お得！
               </p>
             )}
           </div>
