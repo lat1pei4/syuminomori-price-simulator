@@ -1,5 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-
 import React, { useState, useEffect } from "react";
 import { Toggle } from "@/components/ui/toggle";
 import { Slider } from "@/components/ui/slider";
@@ -93,7 +93,9 @@ export default function Home() {
 
     const rates =
       appliedDuration > 1.5
-        ? packageRates[dayType][String(appliedDuration)]
+        ? packageRates[dayType][
+            appliedDuration.toString() as keyof (typeof packageRates)[typeof dayType]
+          ]
         : baseRates;
 
     // Calculate cost with potentially applied package

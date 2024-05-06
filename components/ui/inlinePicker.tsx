@@ -46,7 +46,11 @@ export default function InlinePicker({
 
   return (
     <>
-      <p className="pb-4">人数を入力してください：</p>
+      <p className="pb-4">
+        人数を入力してください：
+        <span className="block text-xs"> *0歳児のお子さまは無料</span>
+      </p>
+
       <div className="flex justify-around items-center px-8">
         <p className="text-center">
           乳幼児
