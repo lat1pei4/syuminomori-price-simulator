@@ -7,7 +7,7 @@ function renderOptions(options: string[], selectedColor?: string) {
       {({ selected }) => (
         <div
           className={
-            selected ? `font-semibold ${selectedColor} ` : "text-neutral-400"
+            selected ? `font-semibold ${selectedColor} ` : "text-[#aaa]"
           }
         >
           {option}
@@ -46,15 +46,15 @@ export default function InlinePicker({
 
   return (
     <>
-      <p className="pb-4">
+      <p className="pb-4 text-[#803C00] font-bold">
         人数を入力してください：
-        <span className="block text-xs"> *0歳児のお子さまは無料</span>
+        <span className="block text-xs"> *0歳児のお子さまは無料です</span>
       </p>
 
       <div className="flex justify-around items-center px-8">
         <p className="text-center">
           乳幼児
-          <span className="text-xs block">（1歳以上）</span>
+          <span className="text-xs block ">（1歳以上）</span>
         </p>
         <p className="text-center">
           幼児
@@ -74,16 +74,16 @@ export default function InlinePicker({
         wheelMode="natural"
       >
         <Picker.Column name="infants">
-          {renderOptions([...selection])}
+          {renderOptions([...selection], "text-[#803C00]")}
         </Picker.Column>
         <Picker.Column name="toddlers">
-          {renderOptions([...selection])}
+          {renderOptions([...selection], "text-[#803C00]")}
         </Picker.Column>
         <Picker.Column name="children">
-          {renderOptions([...selection])}
+          {renderOptions([...selection], "text-[#803C00]")}
         </Picker.Column>
         <Picker.Column name="adults">
-          {renderOptions([...selection])}
+          {renderOptions([...selection], "text-[#803C00]")}
         </Picker.Column>
       </Picker>
     </>

@@ -244,6 +244,19 @@ export default function Home() {
           infants * extensionRates.infants);
     }
 
+    // Adding karaoke cost if selected
+    if (
+      isKaraoke &&
+      nonDiscountedCost > 0 &&
+      (karaoke === "mori" || karaoke === "umi" || karaoke === "kaze")
+    ) {
+      const karaokeCostPer30Min = karaokeRates[karaoke];
+      const karaokePeriods = Math.ceil(duration / 0.5);
+      const karaokeCost = karaokeCostPer30Min * karaokePeriods;
+      cost += karaokeCost;
+      nonDiscountedCost += karaokeCost; // Include karaoke cost in the non-discounted cost
+    }
+
     const discountedAmount = nonDiscountedCost - cost;
     setTotalCost(cost);
     setDiscountedAmount(discountedAmount);
@@ -278,9 +291,9 @@ export default function Home() {
   };
 
   return (
-    <>
-      <div className="flex items-center justify-center h-screen">
-        <div className="p-5 w-[90vw] max-w-[600px] bg-slate-200 rounded-lg">
+    <div className="bg-[url('../img/bg.png')] bg-cover min-h-screen">
+      <div className="flex items-center justify-center ">
+        <div className="p-5 w-[90vw] max-w-[600px] rounded-lg">
           {/* Person input section */}
           <InlinePicker
             setAdults={setAdults}
@@ -291,7 +304,7 @@ export default function Home() {
 
           {/* Day toggle section */}
           <div className="flex flex-col gap-5">
-            <p>利用日：</p>
+            <p className="text-[#803C00] font-bold">利用日：</p>
             <div className="flex justify-center gap-10">
               <Toggle
                 onClick={() => {
@@ -312,7 +325,7 @@ export default function Home() {
                 土日祝
               </Toggle>
             </div>
-            <p>個室利用（カラオケ）:</p>
+            <p className="text-[#803C00] font-bold">個室利用（カラオケ）:</p>
             <div className="flex justify-center sm:gap-10 flex-wrap">
               <Toggle
                 onClick={() => {
@@ -381,7 +394,10 @@ export default function Home() {
                 </p>
               </Toggle>
             </div>
-            <p>滞在時間帯：</p>
+            <p className="text-[#803C00] font-bold">
+              滞在時間帯：
+              <span className="block text-xs">24時制、0.5＝30分</span>
+            </p>
             {/* Slider for time selection */}
             <Slider
               onValueChange={(value) => {
@@ -399,10 +415,8 @@ export default function Home() {
           </div>
           {/* Cost display section */}
           <div className="text-center">
-            <p>
-              {visitTime}時から{exitTime}時まで計{duration}時間
-            </p>
-            <h2 className="text-2xl font-bold ">
+            <p>計{duration}時間</p>
+            <h2 className="text-2xl font-bold text-[#1BAF5A]">
               合計：¥{totalCost.toFixed(0)}
             </h2>
 
@@ -429,8 +443,8 @@ export default function Home() {
                         }ルーム｜`
                       : "来場予約｜"}
                     {duration >= 4 ? "5時間" : duration <= 2 ? "90分" : "3時間"}
-                    {isKaraoke ? "／カラオケ個室プラン" : "パック"}（
-                    {isKaraoke ? "カラオケ時間内歌い放題＋" : ""}
+                    {isKaraoke ? "／カラオケ個室プラン" : "パック"}
+                    <br />（{isKaraoke ? "カラオケ時間内歌い放題＋" : ""}
                     ソフトドリンク飲み放題+おやつバイキング込み）
                   </p>
                 )}
@@ -440,17 +454,17 @@ export default function Home() {
                   </p>
                 )}
                 <Button
-                  variant="outline"
-                  className="text-lg m-5"
+                  variant="destructive"
+                  className="text-lg m-5 rounded-3xl"
                   onClick={handleReservationClick}
                 >
-                  予約へ
+                  予約ページへ
                 </Button>
               </>
             )}
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
