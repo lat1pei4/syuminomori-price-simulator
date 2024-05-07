@@ -61,8 +61,7 @@ export default function InlinePicker({
       <p className="pb-4 text-[#803C00] font-bold">
         人数を入力してください：
         <span className="block text-[10px] text-[#D0927E]">
-          {" "}
-          *0歳児のお子さまは無料です
+          ※0歳児のお子さまは無料です
         </span>
       </p>
 
