@@ -422,7 +422,7 @@ export default function Home() {
             <h2 className="text-2xl font-bold text-[#1BAF5A]">
               参考料金：¥{totalCost.toFixed(0)}
             </h2>
-            <p className="text-[10px] pt-2 text-[#D0927E]">
+            <p className="text-[10px] pt-2 text-[#bf826d]">
               ※お客様がご来場になる際の状況により、
               <br />
               料金に差異が生じる可能性がございますので、
