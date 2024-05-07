@@ -58,7 +58,7 @@ const Slider = forwardRef(
         )}
         {...props}
       >
-        <SliderPrimitive.Track className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-[#fff]">
+        <SliderPrimitive.Track className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-[#ffe]">
           <SliderPrimitive.Range className="absolute h-full bg-[#8d5e34]" />
         </SliderPrimitive.Track>
         {localValues.map((value, index) => (

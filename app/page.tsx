@@ -425,9 +425,7 @@ export default function Home() {
             <p className="text-[10px] pt-2 text-[#bf826d]">
               ※お客様がご来場になる際の状況により、
               <br />
-              料金に差異が生じる可能性がございますので、
-              <br />
-              ご了承くださいませ。
+              料金に差異が生じる可能性がございますので、 ご了承くださいませ。
             </p>
 
             {totalCost > 0 && (
