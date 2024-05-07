@@ -411,6 +411,13 @@ export default function Home() {
               step={0.5}
               minStepsBetweenThumbs={1}
               className="pt-10"
+              formatLabel={(value) => {
+                const minutes = Math.floor(value);
+                const seconds = Math.round((value % 1) * 60)
+                  .toString()
+                  .padStart(2, "0");
+                return `${minutes}:${seconds}`;
+              }}
             />
           </div>
           {/* Cost display section */}
@@ -427,7 +434,7 @@ export default function Home() {
                 (weekend && visitTime >= 16 && duration >= 2.5 && !karaoke) ? (
                   <p className="text-accent-foreground">
                     {weekday
-                      ? "【平日15時〜限定】来場予約｜イブニングパック／最大4時間（ソフトドリンク飲み放題+おやつバイキング込み）"
+                      ? "【平日15時〜限定】来場予約｜イブニングパック／最大5時間（ソフトドリンク飲み放題+おやつバイキング込み）"
                       : "【16時～限定】来場予約｜イブニングパック／最大4時間（ソフトドリンク飲み放題+おやつバイキング込み）"}
                   </p>
                 ) : (

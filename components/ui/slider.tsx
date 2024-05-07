@@ -64,7 +64,7 @@ const Slider = forwardRef(
         {localValues.map((value, index) => (
           <Fragment key={index}>
             <SliderPrimitive.Thumb className="block h-4 w-4 rounded-full border border-primary/50 bg-[#803C00] shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
-              <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 z-30 rounded-md border bg-[#ffe] text-popover-foreground shadow-sm px-2">
+              <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 z-30 rounded-md border bg-[#ffe] text-popover-foreground shadow-sm px-2 py-1 text-xs w-[55px] text-center">
                 {formatLabel ? formatLabel(value) : value}
               </div>
             </SliderPrimitive.Thumb>

@@ -68,7 +68,7 @@ export default function InlinePicker({
       </div>
 
       <Picker
-        className="px-4"
+        className="px-4 bg-gradient-to-b from-[#ffe] via-[#fff] to-[#ffe]"
         value={pickerValue}
         onChange={setPickerValue}
         wheelMode="natural"
