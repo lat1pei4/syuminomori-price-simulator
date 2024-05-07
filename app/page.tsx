@@ -5,7 +5,6 @@ import { Toggle } from "@/components/ui/toggle";
 import { Slider } from "@/components/ui/slider";
 import InlinePicker from "@/components/ui/inlinePicker";
 import { Button } from "@/components/ui/button";
-import { link } from "fs";
 
 export default function Home() {
   const [adults, setAdults] = useState(0);
@@ -394,10 +393,7 @@ export default function Home() {
                 </p>
               </Toggle>
             </div>
-            <p className="text-[#803C00] font-bold">
-              滞在時間帯：
-              <span className="block text-xs">24時制、0.5＝30分</span>
-            </p>
+            <p className="text-[#803C00] font-bold">滞在時間帯：</p>
             {/* Slider for time selection */}
             <Slider
               onValueChange={(value) => {
@@ -424,12 +420,21 @@ export default function Home() {
           <div className="text-center">
             <p>計{duration}時間</p>
             <h2 className="text-2xl font-bold text-[#1BAF5A]">
-              合計：¥{totalCost.toFixed(0)}
+              参考費用：¥{totalCost.toFixed(0)}
             </h2>
+            <p className="text-[10px] pt-2 text-[#D0927E]">
+              ※お客様がご来場になる際の状況により、
+              <br />
+              料金に差異が生じる可能性がございますので、
+              <br />
+              ご了承くださいませ。
+            </p>
 
             {totalCost > 0 && (
               <>
-                <p className="pt-5">おすすめコースは:</p>
+                <p className="pt-5 text-[#803C00] font-bold pb-1">
+                  おすすめコースは:
+                </p>
                 {(weekday && visitTime >= 15 && duration >= 3 && !karaoke) ||
                 (weekend && visitTime >= 16 && duration >= 2.5 && !karaoke) ? (
                   <p className="text-accent-foreground">
@@ -455,7 +460,7 @@ export default function Home() {
                     ソフトドリンク飲み放題+おやつバイキング込み）
                   </p>
                 )}
-                {isPackageApplied && (
+                {duration >= 2.5 && (
                   <p className="text-accent-foreground">
                     {discountedAmount}円お得！
                   </p>

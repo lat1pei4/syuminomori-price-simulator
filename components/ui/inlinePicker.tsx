@@ -29,17 +29,29 @@ export default function InlinePicker({
   setInfants: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const [pickerValue, setPickerValue] = useState({
-    adults: "",
-    children: "",
-    toddlers: "",
-    infants: "",
+    adults: "0",
+    children: "0",
+    toddlers: "0",
+    infants: "0",
   });
 
   useEffect(() => {
-    setAdults(Number(pickerValue.adults));
-    setChildren(Number(pickerValue.children));
-    setToddlers(Number(pickerValue.toddlers));
-    setInfants(Number(pickerValue.infants));
+    // Convert values to numbers
+    const adults = Number(pickerValue.adults);
+    const children = Number(pickerValue.children);
+    const toddlers = Number(pickerValue.toddlers);
+    const infants = Number(pickerValue.infants);
+
+    // Ensure at least 1 adult if there are children, toddlers, or infants
+    if (adults === 0 && (children > 0 || toddlers > 0 || infants > 0)) {
+      setPickerValue((prev) => ({ ...prev, adults: "1" }));
+    } else {
+      setAdults(adults);
+    }
+
+    setChildren(children);
+    setToddlers(toddlers);
+    setInfants(infants);
   }, [pickerValue, setAdults, setChildren, setToddlers, setInfants]);
 
   const selection = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
@@ -48,27 +60,27 @@ export default function InlinePicker({
     <>
       <p className="pb-4 text-[#803C00] font-bold">
         人数を入力してください：
-        <span className="block text-xs"> *0歳児のお子さまは無料です</span>
+        <span className="block text-[10px] text-[#D0927E]">
+          {" "}
+          *0歳児のお子さまは無料です
+        </span>
       </p>
 
-      <div className="flex justify-around items-center px-8">
-        <p className="text-center">
-          乳幼児
-          <span className="text-xs block ">（1歳以上）</span>
+      <div className="flex justify-around items-center ">
+        <p className="text-center flex-1">
+          未就学児
+          <span className="text-xs block">（1~3歳未満）</span>
         </p>
-        <p className="text-center">
-          幼児
+        <p className="text-center flex-1">
+          未就学児
           <span className="text-xs block">（3歳以上）</span>
         </p>
-        <p className="text-center">
-          子供
-          <span className="text-xs block">（小学生以上）</span>
-        </p>
-        <p className="text-center">大人</p>
+        <p className="text-center flex-1">小学生</p>
+        <p className="text-center flex-1">大人</p>
       </div>
 
       <Picker
-        className="px-4 bg-gradient-to-b from-[#ffe] via-[#fff] to-[#ffe]"
+        className="px-2 bg-gradient-to-b from-[#ffe] via-[#ffe] to-[#ffe]"
         value={pickerValue}
         onChange={setPickerValue}
         wheelMode="natural"
