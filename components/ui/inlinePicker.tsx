@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Picker from "react-mobile-picker";
+import { useToast } from "@/components/ui/use-toast";
 
 function renderOptions(options: string[], selectedColor?: string) {
   return options.map((option) => (
@@ -35,6 +36,8 @@ export default function InlinePicker({
     infants: "0",
   });
 
+  const { toast } = useToast();
+
   useEffect(() => {
     // Convert values to numbers
     const adults = Number(pickerValue.adults);
@@ -44,6 +47,10 @@ export default function InlinePicker({
 
     // Ensure at least 1 adult if there are children, toddlers, or infants
     if (adults === 0 && (children > 0 || toddlers > 0 || infants > 0)) {
+      toast({
+        description:
+          "施設をご利用の際は、お子様の安全のため、成人の保護者様とご同行いただきますようお願い申し上げます。",
+      });
       setPickerValue((prev) => ({ ...prev, adults: "1" }));
     } else {
       setAdults(adults);
@@ -52,7 +59,7 @@ export default function InlinePicker({
     setChildren(children);
     setToddlers(toddlers);
     setInfants(infants);
-  }, [pickerValue, setAdults, setChildren, setToddlers, setInfants]);
+  }, [pickerValue, setAdults, setChildren, setToddlers, setInfants, toast]);
 
   const selection = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
