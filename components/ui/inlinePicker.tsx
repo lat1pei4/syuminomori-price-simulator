@@ -75,11 +75,11 @@ export default function InlinePicker({
       <div className="flex justify-around items-center ">
         <p className="text-center flex-1">
           未就学児
-          <span className="text-xs block">（1~3歳未満）</span>
+          <span className="text-xs block">(1~3歳未満)</span>
         </p>
         <p className="text-center flex-1">
           未就学児
-          <span className="text-xs block">（3歳以上）</span>
+          <span className="text-xs block">(3歳以上)</span>
         </p>
         <p className="text-center flex-1">小学生</p>
         <p className="text-center flex-1">大人</p>
