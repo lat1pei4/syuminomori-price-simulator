@@ -49,7 +49,7 @@ export default function InlinePicker({
     if (adults === 0 && (children > 0 || toddlers > 0 || infants > 0)) {
       toast({
         description:
-          "施設をご利用の際は、お子様の安全のため、成人の保護者様とご同行いただきますようお願い申し上げます。",
+          "⚠当店をご利用の際は、お子様の安全のため、成人の保護者様とご同行いただきますようお願い申し上げます。",
       });
       setPickerValue((prev) => ({ ...prev, adults: "1" }));
     } else {
