@@ -420,7 +420,7 @@ export default function Home() {
           <div className="text-center">
             <p>計{duration}時間</p>
             <h2 className="text-2xl font-bold text-[#1BAF5A]">
-              参考料金：¥{totalCost.toFixed(0)}
+              参考料金：¥{totalCost === 0 ? "-" : totalCost.toLocaleString()}
             </h2>
             <p className="text-[10px] pt-2 text-[#bf826d]">
               ※お客様がご来場になる際の状況により、
