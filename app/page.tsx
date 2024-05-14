@@ -429,19 +429,19 @@ export default function Home() {
             </p>
 
             {totalCost > 0 && (
-              <>
+              <div className="bg-[#ffe] rounded-lg mt-5">
                 <p className="pt-5 text-[#803C00] font-bold pb-1">
                   おすすめコースは:
                 </p>
                 {(weekday && visitTime >= 15 && duration >= 3 && !karaoke) ||
                 (weekend && visitTime >= 16 && duration >= 2.5 && !karaoke) ? (
-                  <p className="text-accent-foreground">
+                  <p className="text-accent-foreground px-3">
                     {weekday
                       ? "【平日15時〜限定】来場予約｜イブニングパック／最大5時間（ソフトドリンク飲み放題+おやつバイキング込み）"
                       : "【16時～限定】来場予約｜イブニングパック／最大4時間（ソフトドリンク飲み放題+おやつバイキング込み）"}
                   </p>
                 ) : (
-                  <p className="text-accent-foreground">
+                  <p className="text-accent-foreground px-3">
                     {weekday ? "【平日限定】" : ""}
                     {isKaraoke
                       ? `${
@@ -470,7 +470,7 @@ export default function Home() {
                 >
                   予約ページへ
                 </Button>
-              </>
+              </div>
             )}
           </div>
         </div>
