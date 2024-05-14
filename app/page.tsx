@@ -475,7 +475,7 @@ export default function Home() {
                   className="text-lg m-5 rounded-3xl"
                   onClick={handleReservationClick}
                 >
-                  予約ページへ
+                  予約する
                 </Button>
               </div>
             )}
