@@ -428,6 +428,13 @@ export default function Home() {
               料金に差異が生じる可能性がございますので、 ご了承くださいませ。
             </p>
 
+            {totalCost <= 0 && (
+              <div className="bg-[#ffe] rounded-lg mt-5">
+                <p className="px-5 py-5 text-[#803C00] font-bold ">
+                  利用人数を選択してください
+                </p>
+              </div>
+            )}
             {totalCost > 0 && (
               <div className="bg-[#ffe] rounded-lg mt-5">
                 <p className="pt-5 text-[#803C00] font-bold pb-1">
