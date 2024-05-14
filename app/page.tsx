@@ -425,7 +425,7 @@ export default function Home() {
             <p className="text-[10px] pt-2 text-[#bf826d]">
               ※お客様がご来場になる際の状況により、
               <br />
-              料金に差異が生じる可能性がございますので、 ご了承くださいませ。
+              料金に差異が生じる可能性がございますので、 ご了承くださいませ
             </p>
 
             {totalCost <= 0 && (
@@ -466,7 +466,7 @@ export default function Home() {
                   </p>
                 )}
                 {duration >= 2.5 && (
-                  <p className="text-accent-foreground">
+                  <p className=" text-[#803C00] pt-1">
                     {discountedAmount}円お得！
                   </p>
                 )}
